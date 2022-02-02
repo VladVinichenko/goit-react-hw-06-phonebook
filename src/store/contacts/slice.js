@@ -19,6 +19,7 @@ const contactSlice = createSlice({
       state.contacts = [...state.contacts, { name: action.payload.name, number: action.payload.number, id: nanoid() }]
     },
     deleteContact(state, action) {
+      console.log(action);
       state.contacts = state.contacts.filter(el => el.id !== action.payload)
       state.filter = state.filter.length > 0 && state.filter.filter(el => el.id !== action.payload)
     },

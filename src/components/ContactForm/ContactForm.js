@@ -1,28 +1,26 @@
 import s from './ContactForm.module.css'
 import Input from '../Input/Input';
 import Button from '../Button/Button'
-import { connect } from 'react-redux'
 import React, { useState } from "react";
 
 import { addContact } from '../../store/contacts';
+import { useDispatch } from 'react-redux';
 
-const ContactFormState = ({ addContact }) => {
+const ContactForm = () => {
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
-
-
+  const dispatch = useDispatch()
 
   const onInput = (evt) => {
     evt.target.name === "name" && setName(evt.target.value)
     evt.target.name === "number" && setNumber(evt.target.value)
   }
 
-
   const onAddContact = (evt) => {
     evt.preventDefault()
-    addContact({
+    dispatch(addContact({
       name: name, number: number
-    })
+    }))
   }
 
   return (
@@ -31,24 +29,7 @@ const ContactFormState = ({ addContact }) => {
       <Input name="number" tel='true' inputData={onInput}>Number</Input>
       <Button name='addContact' action={onAddContact}>Add contact</Button>
     </form >
-
-
   )
 }
-
-const mapStateToProps = store => ({
-  contacts: store.contactReducer.contacts
-})
-
-const mapDispatchToProps = {
-  addContact,
-}
-
-
-const ContactForm = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ContactFormState)
-
 
 export default ContactForm;
