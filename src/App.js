@@ -6,9 +6,16 @@ import ContactForm from "./components/ContactForm/ContactForm";
 import ContactList from "./components/ContactList/ContactList";
 import Filter from "./components/Filter/Filter";
 import s from './App.module.css'
+// import { store } from './store'
+import { useSelector } from "react-redux";
 
 
 function App() {
+
+  const contactsStore = useSelector(state => state.contacts)
+  // console.log(store.getState());
+  // console.log(store.dispatch({ type: 'ADD_TO_PHONEBOOK' }));
+
   const [contacts, setContacts] = useState([])
   const [filter, setFilter] = useState('')
   const [name, setName] = useState('')
@@ -18,20 +25,20 @@ function App() {
 
   const onAddContact = (evt) => {
     evt.preventDefault()
-    setContacts([...contacts, { name: name, number: number, id: nanoid() }])
+    setContacts([...contactsStore, { name: name, number: number, id: nanoid() }])
   }
 
   const onFilterChange = (filterInputValue) => {
     setFilterInput(filterInputValue)
     if (filterInputValue.trim().length > 0) {
-      setFilter(contacts.filter(el => el.name.toLowerCase().includes(filterInputValue.toLowerCase())))
+      setFilter(contactsStore.filter(el => el.name.toLowerCase().includes(filterInputValue.toLowerCase())))
       return
     }
     setFilter('')
   }
 
   const onDeleteContact = (removeId) => {
-    setContacts(contacts.filter(el => el.id !== removeId))
+    setContacts(contactsStore.filter(el => el.id !== removeId))
     filterInput.length > 0 && setFilter(filter.filter(el => el.id !== removeId))
   }
 
@@ -45,14 +52,14 @@ function App() {
     onFilterChange(evt.target.value)
   }
 
-  useEffect(() => {
-    const contactsLocal = JSON.parse(localStorage.getItem('contacts'))
-    contactsLocal && setContacts(contactsLocal)
-  }, [])
+  // useEffect(() => {
+  //   const contactsLocal = JSON.parse(localStorage.getItem('contacts'))
+  //   contactsLocal && setContacts(contactsLocal)
+  // }, [])
 
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts])
+  // useEffect(() => {
+  //   localStorage.setItem('contacts', JSON.stringify(contactsStore));
+  // }, [contactsStore])
 
   return (
     <Fragment>
@@ -61,7 +68,7 @@ function App() {
         <ContactForm onAddContact={onAddContact} onInputName={onInput} onInputTel={onInput} />
         <h2 className={s.title}>Contacts</h2>
         <Filter onInputFilter={onInputFilter} />
-        <ContactList renderList={filterInput.length > 0 ? filter : contacts} onDeleteContact={onDeleteContact} />
+        <ContactList renderList={filterInput.length > 0 ? filter : contactsStore} onDeleteContact={onDeleteContact} />
       </Section>
     </Fragment>
   )
