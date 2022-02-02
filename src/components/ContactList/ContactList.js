@@ -1,27 +1,21 @@
-// import { useSelector } from 'react-redux'
 import { connect } from 'react-redux'
 import s from './ContactList.module.css'
 import DeleteButton from '../DeleteButton/DeleteButton'
 import propTypes from 'prop-types';
-import { addContact, deleteContact, clearAllContacts } from '../../store/contacts';
+import { deleteContact } from '../../store/contacts';
 
-// const ContactList = ({ renderList, onDeleteContact }) => {
-const ContactListState = ({ deleteContact, addContact, contacts, clearAllContacts }) => {
+const ContactListState = ({ deleteContact, contacts, filter }) => {
+  const itemList = filter.length > 0 ? filter : contacts
 
-  return contacts.length > 0 ? (<ul className={s.list}>
-    <button onClick={() => addContact()}>add contact</button>
-    {contacts.map((item) =>
+  return itemList.length > 0 ? (<ul className={s.list}>
+    {itemList.map((item) =>
       <li key={item.id} id={item.id} className={s.item}>
         <p className={s.name}>{item.name}</p><p className={s.number}>{item.number}</p>
         <DeleteButton onDeleteContact={(payload) => deleteContact(payload)} id={item.id} />
       </li>
     )}
-    <button onClick={() => clearAllContacts()}>clear all</button>
-  </ul>) : (<div>
+  </ul>) : (
     <p className={s.text}>no results</p>
-    <button onClick={() => addContact()}>add contact</button>
-  </div>
-
   )
 }
 
@@ -30,11 +24,12 @@ ContactListState.propTypes = {
 }
 
 const mapStateToProps = store => ({
-  contacts: store.contactReducer.contacts
+  contacts: store.contactReducer.contacts,
+  filter: store.contactReducer.filter
 })
 
 const mapDispatchToProps = {
-  addContact, deleteContact, clearAllContacts
+  deleteContact
 }
 
 

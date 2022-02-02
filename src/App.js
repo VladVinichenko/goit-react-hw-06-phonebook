@@ -1,65 +1,17 @@
 import Section from "./components/Section/Section";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Fragment } from "react/cjs/react.production.min";
-import { nanoid } from "nanoid";
 import ContactForm from "./components/ContactForm/ContactForm";
 import ContactList from "./components/ContactList/ContactList";
 import Filter from "./components/Filter/Filter";
 import s from './App.module.css'
-// import { store } from './store'
-import { useSelector } from "react-redux";
+import { connect } from 'react-redux'
 
 
-function App() {
-
-  const contactsStore = useSelector(state => state.contacts)
-  // console.log(store.getState());
-  // console.log(store.dispatch({ type: 'ADD_TO_PHONEBOOK' }));
-
-  const [contacts, setContacts] = useState([])
-  const [filter, setFilter] = useState('')
-  // const [name, setName] = useState('')
-  // const [number, setNumber] = useState('')
-  const [filterInput, setFilterInput] = useState('')
-
-
-  // const onAddContact = (evt) => {
-  //   evt.preventDefault()
-  //   setContacts([...contactsStore, { name: name, number: number, id: nanoid() }])
-  // }
-
-  const onFilterChange = (filterInputValue) => {
-    setFilterInput(filterInputValue)
-    if (filterInputValue.trim().length > 0) {
-      setFilter(contactsStore.filter(el => el.name.toLowerCase().includes(filterInputValue.toLowerCase())))
-      return
-    }
-    setFilter('')
-  }
-
-  const onDeleteContact = (removeId) => {
-    setContacts(contactsStore.filter(el => el.id !== removeId))
-    filterInput.length > 0 && setFilter(filter.filter(el => el.id !== removeId))
-  }
-
-  // const onInput = (evt) => {
-  //   evt.target.name === "name" && setName(evt.target.value)
-  //   evt.target.name === "number" && setNumber(evt.target.value)
-  // }
-
-  const onInputFilter = (evt) => {
-    setFilterInput(evt.target.value.trim())
-    onFilterChange(evt.target.value)
-  }
-
-  // useEffect(() => {
-  //   const contactsLocal = JSON.parse(localStorage.getItem('contacts'))
-  //   contactsLocal && setContacts(contactsLocal)
-  // }, [])
-
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contactsStore));
-  // }, [contactsStore])
+function AppState({ contacts }) {
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts])
 
   return (
     <Fragment>
@@ -67,13 +19,20 @@ function App() {
         <h1 className={s.title}>Phonebook</h1>
         <ContactForm />
         <h2 className={s.title}>Contacts</h2>
-        <Filter onInputFilter={onInputFilter} />
-        <ContactList renderList={filterInput.length > 0 ? filter : contactsStore} onDeleteContact={onDeleteContact} />
+        <Filter />
+        <ContactList />
       </Section>
     </Fragment>
   )
-
 }
 
+
+const mapStateToProps = store => ({
+  contacts: store.contactReducer.contacts
+})
+
+const App = connect(
+  mapStateToProps
+)(AppState)
 
 export default App

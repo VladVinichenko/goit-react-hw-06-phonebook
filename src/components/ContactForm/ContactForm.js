@@ -2,7 +2,7 @@ import s from './ContactForm.module.css'
 import Input from '../Input/Input';
 import Button from '../Button/Button'
 import { connect } from 'react-redux'
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { addContact } from '../../store/contacts';
 
@@ -18,9 +18,12 @@ const ContactFormState = ({ addContact }) => {
   }
 
 
-  const onAddContact = () => addContact({
-    payload: { name: name, number: number }
-  })
+  const onAddContact = (evt) => {
+    evt.preventDefault()
+    addContact({
+      name: name, number: number
+    })
+  }
 
   return (
     <form className={s.boxForm} >

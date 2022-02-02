@@ -1,9 +1,13 @@
-// import { addContact, deleteContact, clearAllContacts } from './actions'
 import { createSlice } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid'
 
+const initialStoreFromLocal = () => {
+  const contactsLocal = JSON.parse(localStorage.getItem('contacts'))
+  return contactsLocal ? contactsLocal : []
+}
+
 const initialState = {
-  contacts: [],
+  contacts: initialStoreFromLocal(),
   filter: '',
 }
 
@@ -11,18 +15,22 @@ const contactSlice = createSlice({
   name: 'contact',
   initialState,
   reducers: {
-    addContact(state) {
-      state.contacts = [...state.contacts, { name: 'Mario Andretti', number: '09788888888', id: nanoid() }]
+    addContact(state, action) {
+      state.contacts = [...state.contacts, { name: action.payload.name, number: action.payload.number, id: nanoid() }]
     },
     deleteContact(state, action) {
       state.contacts = state.contacts.filter(el => el.id !== action.payload)
+      state.filter = state.filter.length > 0 && state.filter.filter(el => el.id !== action.payload)
     },
-    clearAllContacts(state) {
-      state.contacts = initialState.contacts
+    filterContacts(state, action) {
+      if (action.payload.trim().length > 0) {
+        state.filter = state.contacts.filter(el => el.name.toLowerCase().includes(action.payload.toLowerCase()))
+        return
+      }
+      state.filter = ''
     },
   },
 })
 
 export const contactReducer = contactSlice.reducer
-
-export const { addContact, deleteContact, clearAllContacts } = contactSlice.actions
+export const { addContact, deleteContact, filterContacts } = contactSlice.actions
