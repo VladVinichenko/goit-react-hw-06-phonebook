@@ -1,8 +1,8 @@
-import { createAction } from "@reduxjs/toolkit"
+// import { createAction } from "@reduxjs/toolkit"
 
-export const addContact = createAction('ADD_CONTACT')
-export const deleteContact = createAction('DELETE_CONTACT')
-export const clearAllContacts = createAction('CLEAR_ALL')
+// export const addContact = createAction('ADD_CONTACT')
+// export const deleteContact = createAction('DELETE_CONTACT')
+// export const clearAllContacts = createAction('CLEAR_ALL')
 
 // export const ACTIONS = {
 //   ADD_CONTACT: 'ADD_CONTACT',

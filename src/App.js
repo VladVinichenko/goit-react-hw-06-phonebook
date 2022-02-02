@@ -18,15 +18,15 @@ function App() {
 
   const [contacts, setContacts] = useState([])
   const [filter, setFilter] = useState('')
-  const [name, setName] = useState('')
-  const [number, setNumber] = useState('')
+  // const [name, setName] = useState('')
+  // const [number, setNumber] = useState('')
   const [filterInput, setFilterInput] = useState('')
 
 
-  const onAddContact = (evt) => {
-    evt.preventDefault()
-    setContacts([...contactsStore, { name: name, number: number, id: nanoid() }])
-  }
+  // const onAddContact = (evt) => {
+  //   evt.preventDefault()
+  //   setContacts([...contactsStore, { name: name, number: number, id: nanoid() }])
+  // }
 
   const onFilterChange = (filterInputValue) => {
     setFilterInput(filterInputValue)
@@ -42,10 +42,10 @@ function App() {
     filterInput.length > 0 && setFilter(filter.filter(el => el.id !== removeId))
   }
 
-  const onInput = (evt) => {
-    evt.target.name === "name" && setName(evt.target.value)
-    evt.target.name === "number" && setNumber(evt.target.value)
-  }
+  // const onInput = (evt) => {
+  //   evt.target.name === "name" && setName(evt.target.value)
+  //   evt.target.name === "number" && setNumber(evt.target.value)
+  // }
 
   const onInputFilter = (evt) => {
     setFilterInput(evt.target.value.trim())
@@ -65,7 +65,7 @@ function App() {
     <Fragment>
       <Section>
         <h1 className={s.title}>Phonebook</h1>
-        <ContactForm onAddContact={onAddContact} onInputName={onInput} onInputTel={onInput} />
+        <ContactForm />
         <h2 className={s.title}>Contacts</h2>
         <Filter onInputFilter={onInputFilter} />
         <ContactList renderList={filterInput.length > 0 ? filter : contactsStore} onDeleteContact={onDeleteContact} />

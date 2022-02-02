@@ -7,20 +7,7 @@ import { addContact, deleteContact, clearAllContacts } from '../../store/contact
 
 // const ContactList = ({ renderList, onDeleteContact }) => {
 const ContactListState = ({ deleteContact, addContact, contacts, clearAllContacts }) => {
-  // const contacts = useSelector(state => state.contacts)
 
-  // const { contacts } = [{ name: 'laskoviy mai', number: '0999999777', id: 'eewe4' }]
-
-  // return renderList.length > 0 ? (<ul className={s.list}>
-  //   {renderList.map((item) =>
-  //     <li key={item.id} id={item.id} className={s.item}>
-  //       <p className={s.name}>{item.name}</p><p className={s.number}>{item.number}</p>
-  //       <DeleteButton onDeleteContact={onDeleteContact} id={item.id} />
-  //     </li>
-  //   )}
-  // </ul>) : (<p className={s.text}>no results</p>)
-
-  // console.log(contacts);
   return contacts.length > 0 ? (<ul className={s.list}>
     <button onClick={() => addContact()}>add contact</button>
     {contacts.map((item) =>
@@ -38,9 +25,9 @@ const ContactListState = ({ deleteContact, addContact, contacts, clearAllContact
   )
 }
 
-// ContactList.propTypes = {
-//   renderList: propTypes.array
-// }
+ContactListState.propTypes = {
+  contacts: propTypes.array
+}
 
 const mapStateToProps = store => ({
   contacts: store.contactReducer.contacts
