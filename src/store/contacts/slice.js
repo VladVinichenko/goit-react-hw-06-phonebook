@@ -23,11 +23,20 @@ const contactSlice = createSlice({
       state.filter = state.filter.length > 0 && state.filter.filter(el => el.id !== action.payload)
     },
     filterContacts(state, action) {
+
+
       if (action.payload.trim().length > 0) {
-        state.filter = state.contacts.filter(el => el.name.toLowerCase().includes(action.payload.toLowerCase()))
+        const currentFilter = state.contacts.filter(el => el.name.toLowerCase().includes(action.payload.toLowerCase()))
+        if (currentFilter.length > 0) {
+          state.filter = currentFilter
+          return
+        }
+        state.filter = { error: 'no results' }
         return
       }
       state.filter = ''
+
+
     },
   },
 })

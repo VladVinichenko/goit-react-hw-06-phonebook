@@ -7,7 +7,7 @@ import { deleteContact } from '../../store/contacts';
 const ContactListState = ({ deleteContact, contacts, filter }) => {
   const itemList = filter.length > 0 ? filter : contacts
 
-  return itemList.length > 0 ? (<ul className={s.list}>
+  return itemList.length > 0 && !filter.error ? (<ul className={s.list}>
     {itemList.map((item) =>
       <li key={item.id} id={item.id} className={s.item}>
         <p className={s.name}>{item.name}</p><p className={s.number}>{item.number}</p>
